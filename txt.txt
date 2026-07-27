@@ -1,0 +1,13 @@
+update at userProfile
+
+    username
+    profilePhoto
+    bioText 
+    tasteTags
+
+
+update at sittings
+    email
+    password
+    OauthProvider
+    appearanceMode

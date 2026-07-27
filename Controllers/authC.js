@@ -73,7 +73,7 @@ export async function login(req, res) {
 
         req.session.userId = user.userID
 
-        console.log(`User ${user.userID} logged in`)
+        console.log(`User ${user.username} logged in`)
 
         return res.status(200).json({message: "logged in successfully"})
 
