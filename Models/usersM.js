@@ -99,3 +99,57 @@ export async function deleteTagsM(tags, userId) {
         throw err
     }
 }
+
+export async function changeProfilePhoto(imgUrl, publicId, userId) {
+
+    try {
+
+        const sql = `UPDATE users
+                    SET "profilePhoto" = $1,
+                    "profilePhotoPublicId" = $2
+                    WHERE "userID" = $3
+                    RETURNING "profilePhoto"
+                    `
+        return await query(sql, [imgUrl, publicId, userId])
+        
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+    
+}
+
+export async function getPublicId(userId) {
+    
+    try {
+
+        const sql = `
+                    SELECT "profilePhotoPublicId" FROM users
+                    WHERE "userID" = $1
+        `
+        return await query(sql, [userId])
+
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+
+}
+
+export async function deleteProfilePhoto(userId) {
+
+    try {
+
+        const sql = `UPDATE users 
+                    SET "profilePhoto" = NULL,
+                    "profilePhotoPublicId" = NULL
+                    WHERE "userID" = $1
+                    `
+        return await query(sql, [userId])
+        
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+    
+}

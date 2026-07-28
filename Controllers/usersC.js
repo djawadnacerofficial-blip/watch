@@ -1,4 +1,5 @@
-import { myProfile, profile, updateProfile } from '../Models/usersM.js'
+import { myProfile, profile, updateProfile, changeProfilePhoto, getPublicId, deleteProfilePhoto } from '../Models/usersM.js'
+import { uploadImg, deleteImg } from '../Services/cloudinaryS.js'
 
 export async function getMyProfile(req, res) {
 
@@ -66,4 +67,42 @@ export async function updateMyProfile(req, res) {
         console.log(err)
         res.status(500).json({error: "Internal server error, while updateMyProfile at usersC.js"})
     }
+}
+
+export async function uploadProfileImg(req, res) {
+
+    try {
+
+        const buffer = req.file.buffer
+
+        const imgObj = await uploadImg(buffer)
+
+        const newImg = await changeProfilePhoto(imgObj.secure_url, imgObj.public_id, req.session.userId)
+
+
+        return res.status(200).json({msg: "profile photo updated", newImg: newImg})
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({error: "Internal server error"})
+    }
+    
+}
+
+export async function deleteProfileImg(req, res) {
+    
+    try {
+        const result = await getPublicId(req.session.userId)
+        const publicId = result.rows[0].profilePhotoPublicId
+        if (publicId) {
+            await deleteImg(publicId)
+        }
+        await deleteProfilePhoto(req.session.userId)
+        return res.status(200).json({msg: "profile photo deleted"})
+        
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({error: "Internal server error"})
+    }
+
 }
