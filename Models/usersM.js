@@ -1,3 +1,4 @@
+import e from "express"
 import { query } from "../Database.js"
 
 
@@ -57,4 +58,44 @@ export async function updateProfile(updates, userId) {
         throw err
     }
 
+}
+
+// tags updating 
+
+export async function addTagsM(tags, userId) {
+    
+    try {
+        
+        const sql = `UPDATE users 
+                    SET taste_tags = ARRAY(
+                    SELECT DISTINCT unnest(taste_tags || $1)
+                    )
+                    WHERE "userID" = $2
+                    RETURNING taste_tags
+        `
+        return await query(sql, [tags, userId])
+
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
+
+}
+
+export async function deleteTagsM(tags, userId) {
+    try {
+        
+        const sql = `UPDATE users
+                    set taste_tags = ARRAY(
+                    SELECT tag FROM unnest(taste_tags) as tag
+                    WHERE tag <> ALL($1))
+                    WHERE "userID" = $2
+                    RETURNING taste_tags`
+
+        return await query(sql, [tags, userId])
+
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
 }
