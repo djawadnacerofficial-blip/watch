@@ -1,5 +1,5 @@
 import e from "express"
-import { query } from "../Database.js"
+import { query } from "../db/Database.js"
 
 
 export async function myProfile(userId) {

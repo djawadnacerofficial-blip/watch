@@ -1,4 +1,4 @@
-import { query } from "../Database.js"
+import { query } from "../db/Database.js"
 
 export async function checkUser(username, email) {
     try{
@@ -8,6 +8,7 @@ export async function checkUser(username, email) {
         return  user
 
     } catch (err) {
+        console.log(err)
         throw err
     }
 }
@@ -20,6 +21,7 @@ export async function findUser(identifier) {
         return user
 
     } catch (err) {
+        console.log(err)
         throw err
     }
 }
@@ -33,6 +35,7 @@ export async function pushUser(username, email, password) {
         return lastUser
 
     } catch (err) {
+        console.log(err)
         throw err
     }
 }
