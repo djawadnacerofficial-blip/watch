@@ -1,19 +1,15 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../api/authApi";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 export default function Settings() {
     const navigate = useNavigate();
-
+    const { logout } = useAuth();
     const [theme, setTheme] = useState("dark");
 
     async function handleLogout() {
-        try {
-            await logout();
-            navigate("/");
-        } catch (error) {
-            console.error(error);
-        }
+        await logout();
+        navigate("/");
     }
 
     return (

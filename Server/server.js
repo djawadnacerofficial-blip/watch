@@ -7,6 +7,8 @@ import { authRouter } from "./Routes/authR.js"
 import { usersRouter } from "./Routes/usersR.js"
 import { postsRouter } from './Routes/postsR.js'
 import { commentsRouter } from './Routes/commentsR.js'
+import  { searchRouter }  from './Routes/searchR.js'
+import { listsRouter } from "./Routes/listsR.js"
 import { sessionConfig } from "./Config/sessionConfig.js"
 
 const app = express()
@@ -27,9 +29,10 @@ app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/posts', postsRouter)
 app.use('/api/comments', commentsRouter)
-app.use('/api/media')
-app.use('/api/settings')
-app.use('/api/search')
+//app.use('/api/media')
+//app.use('/api/settings')
+app.use('/api/search', searchRouter)
+app.use('/api/lists', listsRouter)
 /* setting and movies */
 
 

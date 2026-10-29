@@ -4,7 +4,7 @@ export const API = async (url, options = {}, errorMessage = "Request failed") =>
         ...options
     })
 
-    const data = await res.json()
+    const data = await res.json().catch(() => ({}))
 
     if (!res.ok) { throw new Error(data.error || errorMessage) }
 

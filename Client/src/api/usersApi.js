@@ -1,6 +1,6 @@
 import { API } from './client.js'
 
-const USERS_BASE_URL = "http://localhost:5000/api/users"
+const USERS_BASE_URL = "/api/users"
 
 
 

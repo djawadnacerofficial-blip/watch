@@ -1,26 +1,43 @@
-import PillBadge from "./pillBadge"
+import PillBadge from "./pillBadge";
+import Comments from "./Comments";
 
+function formatDate(value) {
+    if (!value) return "";
+    return new Date(value).toLocaleDateString();
+}
 
+export default function Post({
+    postId,
+    username,
+    profilePhoto,
+    createdAt,
+    text,
+    movieName,
+}) {
+    const initial = username?.[0]?.toUpperCase() || "?";
 
-const img = "https://res.cloudinary.com/uzu6pbxu/image/upload/v1785280719/lrkmzskji9w5ybvgdfoc.webp"
-const username = "immo.n.101"
-const timestamp = "2026-08-03"
-const tags = ["history","action","drama"]
-
-export default function Post() {
-    return(
+    return (
         <section className="post">
             <div className="poster">
-                <img className="post-img" src={img} alt="post profile img" />
+                {profilePhoto ? (
+                    <img className="post-img" src={profilePhoto} alt={`${username} avatar`} />
+                ) : (
+                    <div className="post-img post-img-fallback" aria-hidden="true">
+                        {initial}
+                    </div>
+                )}
                 <div className="poster-data">
                     <span className="post-username">{username}</span>
-                    <p className="created-at">{timestamp}</p>
+                    <p className="created-at">{formatDate(createdAt)}</p>
                 </div>
-                <div className="post-tags">
-                    {tags?.map(tag => <PillBadge txt={tag} />)}
-                </div>
+                {movieName && (
+                    <div className="post-tags">
+                        <PillBadge txt={movieName} />
+                    </div>
+                )}
             </div>
-            <div className="post-txt">movies fan gdfsgds sdggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj f ggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj f ggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj f ggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj f ggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj f ggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj f ggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj f ggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj f ggdsg gd sdg sd fdsgf  fgdghfgjjf jhgj fghj</div>
+            <div className="post-txt">{text}</div>
+            <Comments postId={postId} />
         </section>
-    )
+    );
 }

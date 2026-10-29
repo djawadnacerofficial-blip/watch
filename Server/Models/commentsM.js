@@ -3,13 +3,14 @@ import { query } from "../db/Database.js";
 export async function getCommentsM(postId) {
     try {
         const sql = `
-            SELECT *
-            FROM comments
-            WHERE post_id = $1
-            ORDER BY created_at ASC
+            SELECT c.*, u.username, u."profilePhoto"
+            FROM comments c
+            JOIN users u ON u."userID" = c."userID"
+            WHERE c.post_id = $1
+            ORDER BY c.created_at ASC
         `;
-
-        return await query(sql, [postId]);
+        const result = await query(sql, [postId]);
+        return result.rows;
 
     } catch (err) {
         console.log(err);

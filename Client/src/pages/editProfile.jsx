@@ -16,7 +16,7 @@ export default function EditProfile() {
         async function loadProfile() {
             try {
                 const res = await getMyProfile();
-                const user = res.rows[0];
+                const user = res;
 
                 setUsername(user.username || "");
                 setBio(user.text_bio || "");

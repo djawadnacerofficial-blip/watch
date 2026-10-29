@@ -7,9 +7,9 @@ import {
 
 export async function getCommentsC(req, res) {
     try {
-        const { postId } = req.params;
+        const { post_id } = req.params;
 
-        const comments = await getCommentsM(postId);
+        const comments = await getCommentsM(post_id);
 
         return res.status(200).json({
             msg: "Comments retrieved successfully.",

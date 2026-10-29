@@ -1,28 +1,12 @@
-import { useEffect, useState } from "react";
-import { getMyProfile } from "../api/usersApi";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
-import PillBadge from "../components/PillBadge";
-import Post from "../components/Post";
+import PillBadge from "../components/pillBadge.jsx";
+import Post from "../components/post.jsx";
 
 export default function Profile() {
-
-    const [user, setUser] = useState(null);
-
+    const { user } = useAuth();
     const navigate = useNavigate();
-
-    useEffect(() => {
-
-        async function loadProfile() {
-            const data = await getMyProfile();
-
-            setUser(data);
-        }
-
-        loadProfile();
-
-    }, []);
 
     if (!user) {
         return <p>Loading...</p>;
@@ -38,11 +22,17 @@ export default function Profile() {
 
                 <section className="profile-header">
 
-                    <img
-                        className="profile-avatar"
-                        src={user.profilePhoto}
-                        alt="Profile"
-                    />
+                    {user.profilePhoto ? (
+                        <img
+                            className="profile-avatar"
+                            src={user.profilePhoto}
+                            alt="Profile"
+                        />
+                    ) : (
+                        <div className="profile-avatar post-img-fallback">
+                            {user.username?.[0]?.toUpperCase()}
+                        </div>
+                    )}
 
                     <div className="profile-main">
 
@@ -58,9 +48,9 @@ export default function Profile() {
                                 </p>
                             </div>
 
-                            <button 
-                                
+                            <button
                                 className="edit-profile-btn"
+                                onClick={() => navigate("/profile/edit")}
                             >
                                 Edit Profile
                             </button>

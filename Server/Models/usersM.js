@@ -1,4 +1,3 @@
-import e from "express"
 import { query } from "../db/Database.js"
 
 
@@ -23,6 +22,18 @@ export async function profile(username) {
         throw err
     }
     
+}
+
+export async function userBYname(username) {
+    try {
+
+        const sql = `SELECT username, "profilePhoto", "text_bio", "taste_tags" FROM users WHERE username ILIKE $1`
+        const result = await query(sql, [`%${username}%`])
+        return result.rows
+
+    } catch (error) {
+        throw error
+    }
 }
 
 export async function updateProfile(updates, userId) {

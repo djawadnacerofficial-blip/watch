@@ -3,9 +3,18 @@ import { query } from "../db/Database.js";
 export async function getAllPostsM() {
     try {
         const sql = `
-            SELECT *
-            FROM posts
-            ORDER BY created_at DESC
+            SELECT
+                p.post_id,
+                p.post_txt,
+                p.movie_name,
+                p."userID",
+                p.created_at,
+                p.updated_at,
+                u.username,
+                u."profilePhoto"
+            FROM posts p
+            JOIN users u ON p."userID" = u."userID"
+            ORDER BY p.created_at DESC
         `;
 
         return await query(sql);
@@ -118,6 +127,23 @@ export async function deletePostM(userId, post_id) {
 
         return await query(sql, [userId, post_id]);
 
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+export async function getPostBymovieM(tag) {
+    try {
+        const sql = `
+            SELECT p.*, u.username, u."profilePhoto"
+            FROM posts p
+            JOIN users u ON u."userID" = p."userID"
+            WHERE p.movie_name ILIKE $1
+            ORDER BY p.created_at DESC
+        `;
+        const result = await query(sql, [`%${tag}%`]);
+        return result.rows;
     } catch (err) {
         console.log(err);
         throw err;

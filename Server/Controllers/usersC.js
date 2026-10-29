@@ -11,10 +11,6 @@ export async function getMyProfile(req, res) {
             return res.status(500).json({error: "calling getMyProfile at usersM.js"})
         }
 
-        console.log('myProfile data has been  sent succesfully')
-
-        console.log(user)
-
         return res.status(200).json(user.rows[0])
 
     } catch (err) {

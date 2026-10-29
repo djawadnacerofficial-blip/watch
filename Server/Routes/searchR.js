@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { authMW } from "../Middleware/authMW";
-import { search } from "../Controllers/seaerchC";
+import { authMW } from "../Middleware/authMW.js";
+import { search } from "../Controllers/searchC.js";
 
-const searchRouter = Router()
+export const searchRouter = Router()
 
-searchRouter.get('/:q', authMW, search)
+searchRouter.get('/', authMW, search)

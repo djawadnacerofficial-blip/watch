@@ -4,9 +4,9 @@ import { getAllPostsM, createPostM, updatePostM, deletePostM } from '../Models/p
 export async function getPosts(req, res) {
     try {
 
-        const posts =  await getAllPostsM()
+        const result = await getAllPostsM()
 
-        res.status(200).json({msg: "posts arrived", posts})
+        res.status(200).json({ msg: "posts arrived", posts: result.rows })
         
     } catch (err) {
         console.log(err)

@@ -30,13 +30,12 @@ export function deletePost(postId) {
 }
 
 export function getComments(postId) {
-    return API(`${POSTS_BASE_URL}/comments/${postId}`, {
-    })
+    return API(`${POSTS_BASE_URL}/${postId}/comments`)
 }
 
-export function createComment(postId ,comment) {
-    return API(`${POSTS_BASE_URL}/comments/${postId}`, {
-        method: "post",
+export function createComment(postId, comment) {
+    return API(`${POSTS_BASE_URL}/${postId}/comments`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(comment)
     })
